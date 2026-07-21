@@ -1,0 +1,93 @@
+site_name: AI 辅助软件测试 — 团队培训
+site_description: 测试团队 AI 辅助测试培训课程（2 周 / 18 小时）
+site_url: https://OMNI.github.io/AITestingTraining/
+docs_dir: docs
+
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.sections
+    - navigation.top
+    - content.code.copy
+    - search.suggest
+    - search.highlight
+
+markdown_extensions:
+  - tables
+  - fenced_code
+  - toc:
+      permalink: true
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.details
+
+nav:
+  - 首页: README.md
+  - 项目概览:
+      - 项目说明: AI_CONTEXT.md
+      - 思维导图: AITestingTraining_MindMap.md
+      - Rovo Agents 速查: Rovo_Agents.md
+  - 课程模块:
+      - M1 AI 认知基础 + 工具环境搭建:
+          - 课件: modules/01-ai-foundations/lecture.md
+          - Lab 通用版: modules/01-ai-foundations/lab-generic.md
+          - Lab OmniPeople 版: modules/01-ai-foundations/lab-omnipeople.md
+          - 测验: modules/01-ai-foundations/quiz.md
+      - M2 Prompt 工程精讲:
+          - 课件: modules/02-prompt-engineering/lecture.md
+          - Lab 通用版: modules/02-prompt-engineering/lab-generic.md
+          - Lab OmniPeople 版: modules/02-prompt-engineering/lab-omnipeople.md
+          - 测验: modules/02-prompt-engineering/quiz.md
+      - M3 测试用例 AI 批量生成:
+          - 课件: modules/03-testcase-generation/lecture.md
+          - Lab 通用版: modules/03-testcase-generation/lab-generic.md
+          - Lab OmniPeople 版: modules/03-testcase-generation/lab-omnipeople.md
+          - 测验: modules/03-testcase-generation/quiz.md
+      - M4 Bug 分析与报告规范化:
+          - 课件: modules/04-bug-analysis/lecture.md
+          - Lab 通用版: modules/04-bug-analysis/lab-generic.md
+          - Lab OmniPeople 版: modules/04-bug-analysis/lab-omnipeople.md
+          - 测验: modules/04-bug-analysis/quiz.md
+      - M5 需求评审 + 测试计划提效:
+          - 课件: modules/05-requirements-planning/lecture.md
+          - Lab 通用版: modules/05-requirements-planning/lab-generic.md
+          - Lab OmniPeople 版: modules/05-requirements-planning/lab-omnipeople.md
+          - 测验: modules/05-requirements-planning/quiz.md
+      - M6 数据库测试 + AI 辅助 SQL:
+          - 课件: modules/06-database-testing/lecture.md
+          - Lab 通用版: modules/06-database-testing/lab-generic.md
+          - Lab OmniPeople 版: modules/06-database-testing/lab-omnipeople.md
+          - 测验: modules/06-database-testing/quiz.md
+      - M7 自动化脚本生成（Playwright）:
+          - 课件: modules/07-automation-playwright/lecture.md
+          - Lab 通用版: modules/07-automation-playwright/lab-generic.md
+          - Lab OmniPeople 版: modules/07-automation-playwright/lab-omnipeople.md
+          - 测验: modules/07-automation-playwright/quiz.md
+      - M8 API 测试 + 自动化进阶:
+          - 课件: modules/08-api-testing/lecture.md
+          - Lab 通用版: modules/08-api-testing/lab-generic.md
+          - Lab OmniPeople 版: modules/08-api-testing/lab-omnipeople.md
+          - 测验: modules/08-api-testing/quiz.md
+      - M9 Prompt 资产体系建设:
+          - 课件: modules/09-prompt-assets/lecture.md
+          - Lab 通用版: modules/09-prompt-assets/lab-generic.md
+          - Lab OmniPeople 版: modules/09-prompt-assets/lab-omnipeople.md
+          - 测验: modules/09-prompt-assets/quiz.md
+      - M10 完整 AI 闭环演练 + ROI 汇报:
+          - 课件: modules/10-full-loop-roi/lecture.md
+          - Lab 通用版: modules/10-full-loop-roi/lab-generic.md
+          - Lab OmniPeople 版: modules/10-full-loop-roi/lab-omnipeople.md
+          - 测验: modules/10-full-loop-roi/quiz.md
+  - Prompt 模板:
+      - 概览: prompt-templates/README.md
+      - 用例设计: prompt-templates/testcase-design.md
+      - Bug 报告: prompt-templates/bug-report.md
+      - 脚本生成: prompt-templates/script-generation.md
+      - SQL/SOQL: prompt-templates/sql-query.md
+      - 需求分析: prompt-templates/requirements-analysis.md
+      - 报告编写: prompt-templates/report-writing.md
+      - Rovo 测试用例生成 Agent: prompt-templates/rovo-test-case-generator-agent.md
+  - 落地计划:
+      - 30 天行动计划: roadmap/30-day-action-plan.md
