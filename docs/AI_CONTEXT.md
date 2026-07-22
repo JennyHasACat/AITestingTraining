@@ -23,14 +23,14 @@ AITestingTraining/
 │   ├── 08-api-testing/
 │   ├── 09-prompt-assets/
 │   └── 10-full-loop-roi/
-├── prompt-templates/            ← 60+ 条可直接复用的 Prompt 模板
+├── prompt-templates/            ← 30+ 条可直接复用的 Prompt 模板
 │   ├── README.md
 │   ├── testcase-design.md       T-01~T-06 + OP-T01
 │   ├── bug-report.md            B-01~B-05 + OP-B01
 │   ├── script-generation.md     AUTO-01~AUTO-05 + OP-AUTO01
 │   ├── sql-query.md             DB-01~DB-05（含 SOQL）
 │   ├── requirements-analysis.md R-01~R-06
-│   └── report-writing.md        T-05, D-01~D-04
+│   └── report-writing.md        D-05, D-01~D-04
 └── roadmap/
     └── 30-day-action-plan.md    ← 培训后的 30 天落地计划
 ```

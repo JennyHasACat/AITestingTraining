@@ -47,7 +47,7 @@ Week 2：技术进阶 + 闭环整合
 
 | 资源 | 说明 | 链接 |
 |------|------|------|
-| Prompt 模板资产包 | 6 大场景 60+ 条可直接复用的 Prompt | [prompt-templates/](prompt-templates/README.md) |
+| Prompt 模板资产包 | 6 大场景 30+ 条可直接复用的 Prompt | [prompt-templates/](prompt-templates/README.md) |
 | 30 天落地行动计划 | 培训结束后的跟进节奏与 ROI 度量 | [roadmap/30-day-action-plan.md](roadmap/30-day-action-plan.md) |
 | Rovo Agents 速查 | JIRA Rovo 的 AI agent 列表（含官方链接）+ 自建测试用例生成 agent 示例 | [Rovo_Agents.md](Rovo_Agents.md) |
 

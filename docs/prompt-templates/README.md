@@ -1,6 +1,6 @@
 # Prompt 模板资产包 — 目录
 
-> 共 **6 个场景分类**，60+ 条经验证的可复用 Prompt 模板  
+> 共 **6 个场景分类**，30+ 条经验证的可复用 Prompt 模板  
 > 维护方式：GitHub Issues + PR 流程  
 > 贡献标准：2 人以上验证通过，效果评级 ≥ 4 星方可入库
 
@@ -15,7 +15,8 @@
 | [script-generation.md](script-generation.md) | 自动化脚本生成 | AUTO-01 ~ AUTO-05 + OP-AUTO01 | M7–M8 |
 | [sql-query.md](sql-query.md) | 数据库 SQL / SOQL | DB-01 ~ DB-05 | M6 |
 | [requirements-analysis.md](requirements-analysis.md) | 需求分析与测试计划 | R-01 ~ R-06 | M5 |
-| [report-writing.md](report-writing.md) | 测试报告与文档 | T-05, D-01 ~ D-04 | M5 + M10 |
+| [report-writing.md](report-writing.md) | 测试报告与文档 | D-05, D-01 ~ D-04 | M5 + M10 |
+| [rovo-test-case-generator-agent.md](rovo-test-case-generator-agent.md) | Rovo Agent（测试用例生成） | Agent 级 | 可独立使用 |
 
 ---
 
@@ -38,7 +39,7 @@
 1. 使用一个 Prompt 至少 3 次，效果稳定
 2. 按标准格式整理（参考各文件中的示例）
 3. 在 GitHub Issues 提交，标签：`[prompt-new]`
-4. 等待 1 位以上成员确认使用有效
+4. 等待 2 位以上成员确认使用有效
 5. 提 PR 添加到对应分类文件
 
 ---
