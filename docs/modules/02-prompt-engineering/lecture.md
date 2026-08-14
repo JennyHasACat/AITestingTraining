@@ -281,6 +281,70 @@
 
 ---
 
+## 第五节：MCP 与 CLI —— 让 AI 不只是"聊天"（25 min）
+
+前两节讲的都是"在对话框里写 Prompt"。但当你想让 AI **直接操作你的环境**（跑命令、读文件、连内部系统）时，就需要了解两种工程化入口：**CLI** 和 **MCP**。
+
+### 什么是 CLI（命令行接口）
+
+CLI 是你直接在终端输入命令调用程序的方式。AI 工具（如 Claude Code、CodeBuddy）本身就是以 CLI / 终端交互的形式运行，你可以让它"执行某条命令""读某个文件"。
+
+```
+你：帮我跑一下 pytest tests/test_login.py，把失败原因总结出来
+AI（通过 CLI 环境）：执行 → 读取输出 → 给出根因分析
+```
+
+**特点**：AI 直接在你机器的 shell 里工作，适合"本地文件 / 本地命令"类任务。
+
+### 什么是 MCP（Model Context Protocol）
+
+MCP 是 Anthropic 提出的**开放协议**，让 AI 以统一标准连接外部工具和数据源（数据库、API、内部系统、第三方服务）。你可以把它理解成"AI 的 USB 接口"——插上不同的 MCP Server，AI 就能获得对应的能力。
+
+```
+没有 MCP：你复制数据库查询结果 → 粘贴给 AI → AI 分析
+有 MCP  ：AI 通过 MCP Server 直接查数据库 → 自己拿到结果再分析
+```
+
+### CLI vs MCP 对比
+
+| 维度 | CLI | MCP |
+|------|-----|-----|
+| 交互方式 | AI 在终端执行命令 | AI 通过标准协议调用外部 Server 的能力 |
+| 适用场景 | 本地文件、本地命令、脚本运行 | 连接数据库/API/内部系统/第三方服务 |
+| 配置复杂度 | 低（装好工具即可用） | 中（需配置 `mcp.json` 指向 Server） |
+| 能力边界 | 受限于本机环境 | 可扩展到任意接入 MCP 的远程系统 |
+| 典型代表 | Claude Code、CodeBuddy 终端模式 | 各类 MCP Server（DB / Figma / GitHub / 内部系统） |
+
+### MCP 配置思路（伪步骤）
+
+MCP 的核心是告诉 AI 客户端"有哪些 Server、怎么启动它们"。配置通常是一个 `mcp.json`（或客户端等效配置），示例如下（伪代码，不依赖具体内部服务）：
+
+```json
+{
+  "mcpServers": {
+    "sqlite-local": {
+      "command": "uvx",
+      "args": ["mcp-server-sqlite", "--db-path", "./test.db"]
+    },
+    "internal-api": {
+      "command": "node",
+      "args": ["/path/to/your-mcp-server.js"],
+      "env": { "API_TOKEN": "${INTERNAL_API_TOKEN}" }
+    }
+  }
+}
+```
+
+配置要点：
+1. 每个 Server 有唯一名称（如 `sqlite-local`）；
+2. `command` + `args` 描述如何启动这个 Server；
+3. 敏感信息（Token）走环境变量，不要硬编码进配置文件；
+4. 在 AI 客户端里启用配置后，AI 就能在对话中"看到"并使用这些能力。
+
+> ⚠️ **安全提醒**：MCP Server 拥有它被授予的权限（读库、调 API）。只接入你信任的 Server，并对生产环境权限做最小化授权。
+
+---
+
 ## 本模块小结
 
 | 技巧 | 适用场景 |
