@@ -11,28 +11,34 @@
 
 ```
 AITestingTraining/
-├── README.md                    ← 入口，含完整课程表和学习路径
-├── modules/                     ← 10 个学习模块，每模块 4 个文件
-│   ├── 01-ai-foundations/
-│   ├── 02-prompt-engineering/
-│   ├── 03-testcase-generation/
-│   ├── 04-bug-analysis/
-│   ├── 05-requirements-planning/
-│   ├── 06-database-testing/
-│   ├── 07-automation-playwright/
-│   ├── 08-api-testing/
-│   ├── 09-prompt-assets/
-│   └── 10-full-loop-roi/
-├── prompt-templates/            ← 30+ 条可直接复用的 Prompt 模板
-│   ├── README.md
-│   ├── testcase-design.md       T-01~T-06 + OP-T01
-│   ├── bug-report.md            B-01~B-05 + OP-B01
-│   ├── script-generation.md     AUTO-01~AUTO-05 + OP-AUTO01
-│   ├── sql-query.md             DB-01~DB-05（含 SOQL）
-│   ├── requirements-analysis.md R-01~R-06
-│   └── report-writing.md        D-05, D-01~D-04
-└── roadmap/
-    └── 30-day-action-plan.md    ← 培训后的 30 天落地计划
+├── README.md                    ← 入口（维护者说明），课程站见下方 docs/
+├── mkdocs.yml                   ← MkDocs 站点配置（docs_dir: docs）
+└── docs/                        ← 课程正文，由 MkDocs 构建为站点
+    ├── AI_CONTEXT.md            ← 本文件，项目快速上手
+    ├── AITestingTraining_MindMap.md  ← 课程思维导图
+    ├── Rovo_Agents.md           ← Rovo Agents 速查
+    ├── modules/                 ← 10 个学习模块，每模块 4 个文件
+    │   ├── 01-ai-foundations/
+    │   ├── 02-prompt-engineering/
+    │   ├── 03-testcase-generation/
+    │   ├── 04-bug-analysis/
+    │   ├── 05-requirements-planning/
+    │   ├── 06-database-testing/
+    │   ├── 07-automation-playwright/
+    │   ├── 08-api-testing/
+    │   ├── 09-prompt-assets/
+    │   └── 10-full-loop-roi/
+    ├── prompt-templates/        ← 30+ 条可直接复用的 Prompt 模板（7 个分类）
+    │   ├── README.md
+    │   ├── testcase-design.md       T-01~T-06 + OP-T01
+    │   ├── bug-report.md            B-01~B-05 + OP-B01
+    │   ├── script-generation.md     AUTO-01~AUTO-05 + OP-AUTO01
+    │   ├── sql-query.md             DB-01~DB-05（含 SOQL）
+    │   ├── requirements-analysis.md R-01~R-06
+    │   ├── report-writing.md        D-05, D-01~D-04
+    │   └── rovo-test-case-generator-agent.md  ← Rovo Agent（测试用例生成）
+    └── roadmap/
+        └── 30-day-action-plan.md    ← 培训后的 30 天落地计划
 ```
 
 每个模块下固定 4 个文件：
@@ -103,6 +109,51 @@ AITestingTraining/
 - 课件更新：直接 PR，无需特殊审批
 - 失效 Prompt 标记：Issues → `[prompt-invalid]` 标签
 - 建议频率：每月 Review Prompt 库；每季度 Review 课件内容
+
+---
+
+## 如何扩展课件（持续"加肉"约定）
+
+本课件采用统一节奏，新增内容只需在目标模块的 `lecture.md` 追加一个「第 N 节」，套用以下骨架，无需改动既有编号、导航与小结。
+
+### 标准小节骨架
+
+```markdown
+## 第 N 节：[小节标题]（X min）
+
+### 它解决什么问题
+[一句话说明痛点]
+
+### 核心思路 / 提示词骨架
+[可直接复制改的 Prompt 或伪步骤；私有内容只写思路，不贴内部代码]
+
+### 使用示例
+[一个最小可运行示例]
+
+### 注意事项
+[踩坑点 / 数据安全 / 人工兜底]
+```
+
+### "AI 提效小工具"类内容的统一标题约定
+
+所有工具型补充统一用以下小节名，便于全局检索与后续批量更新：
+
+```markdown
+## 第 N 节：AI 提效小工具 —— [工具名]（X min）
+> 待补充：具体工具 / 链接 / 进阶用法（由维护者持续更新）
+```
+
+全局搜索 `AI 提效小工具` 即可定位全部此类小节。
+
+### 一键加肉规则
+
+项目内置规则 `training-content-add-flesh.mdc`（触发词「喵喵喵加肉」）：说出"喵喵喵加肉：在 M6 加一个『AI 自然语言转 SQL 工具』小节，内容是……"即可自动定位模块、套骨架插入、并提示跑「喵喵喵培训自检」回归。
+
+### 护栏提醒
+
+- 新增 Prompt 模板必须走 `M9` 标准格式，且编号不得与现有 `T-/B-/R-/DB-/AUTO-/D-/OP-` 重复（见 `training-content-consistency` 护栏）。
+- 每次扩展后运行「喵喵喵培训自检」确认 quiz 题号、模板编号、引用无回归。
+- 私有实现只写"思路 + 伪步骤"，符合公开课件 + 私有代码约定。
 
 ---
 

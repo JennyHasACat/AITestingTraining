@@ -11,10 +11,10 @@
 | 文件 | 场景 | 模板数 | 对应模块 |
 |------|------|--------|---------|
 | [testcase-design.md](testcase-design.md) | 测试用例设计 | T-01 ~ T-06 + OP-T01 | M3 |
-| [bug-report.md](bug-report.md) | Bug 分析与报告 | B-01 ~ B-05 + OP-B01 | M4 |
+| [bug-report.md](bug-report.md) | Bug 分析与报告 | B-01 ~ B-06 + OP-B01 | M4 |
 | [script-generation.md](script-generation.md) | 自动化脚本生成 | AUTO-01 ~ AUTO-05 + OP-AUTO01 | M7–M8 |
 | [sql-query.md](sql-query.md) | 数据库 SQL / SOQL | DB-01 ~ DB-05 | M6 |
-| [requirements-analysis.md](requirements-analysis.md) | 需求分析与测试计划 | R-01 ~ R-06 | M5 |
+| [requirements-analysis.md](requirements-analysis.md) | 需求分析与测试计划 | R-01 ~ R-07 | M5 |
 | [report-writing.md](report-writing.md) | 测试报告与文档 | D-05, D-01 ~ D-04 | M5 + M10 |
 | [rovo-test-case-generator-agent.md](rovo-test-case-generator-agent.md) | Rovo Agent（测试用例生成） | Agent 级 | 可独立使用 |
 

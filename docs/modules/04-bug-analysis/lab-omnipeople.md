@@ -56,27 +56,37 @@ Error during test: element handle is gone
 
 ---
 
-## Lab 4-B：生成 OmniPeople 风格的 Bug 报告（10 min）
+## Lab 4-B：生成可创建 Jira 的 Bug 报告（10 min）
 
-基于上面的测试失败，使用以下 Prompt 生成规范 Bug 报告：
+基于上面的测试失败，使用 **模板 B-06** 生成可映射到 Jira 的规范 Bug 报告。先填写以下练习配置；不要使用真实生产项目，也不要在没有明确授权时创建 Issue：
 
 ```
-你是一名测试工程师，以下是一个自动化测试失败的场景：
+Jira 配置：
+- Project Key：TRAINING
+- Issue Type：Bug
+- Parent / Epic：留空
+- Sprint：留空
+- Estimate / Story Points：Story Points，3
+- Priority：Medium
+- Labels：functional-defect
+- Assignee：不指定
+- Summary 格式：[Environment] - <Module> - <Page/Feature> - <Issue>
+
+原始 Bug 描述：
 [粘贴 Lab 4-A 中的失败信息]
 
-AI 分析认为根因是：[填写你认为最可能的根因]
-
-环境：Chrome / Staging / Playwright Python 3.11
-严重程度：P1
-
-请生成一份规范 Bug 报告，包含：
-- 标题（格式：[模块] [操作] [现象]）
-- 严重程度 / 复现率 / 环境
-- 前置条件
-- 复现步骤（以手动测试步骤为主，因为自动化脚本可能有问题）
-- 预期结果 / 实际结果
-- 可能根因（来自 AI 分析）
+补充上下文：
+- AI 分析认为最可能的根因：[填写你的判断]
+- 测试环境：Chrome / Staging / Playwright Python 3.11
+- 需求依据：[填写条件显示字段的预期规则；未知时标记待补充]
 ```
+
+检查输出是否满足：
+- [ ] Project Key、Issue Type、Priority、Labels 等值来自配置，而不是 Prompt 的固定项目值
+- [ ] Summary 使用指定格式，环境或页面未知时为 `NA`
+- [ ] Description 包含 Test url、Test environment、Steps、Expect Result、Actual Result
+- [ ] 不确定的业务规则被标记为 `NA` 或“待补充”，没有被 AI 编造
+- [ ] 默认只输出字段；若没有已授权 Jira Sandbox 工具，则保留人工创建所需的完整内容
 
 ---
 
