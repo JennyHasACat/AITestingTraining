@@ -1,8 +1,8 @@
 # Handoff — 培训内容一致性审查
 
 > 创建时间：2026-07-21
-> 最后更新：2026-08-14
-> 状态：**审查已完成（7 项已推送 `main`）；2026-08-14 新增 N1/N2 文档滞后修复（本地未推送），同日「喵喵喵培训自检」6 项全过**
+> 最后更新：2026-08-27
+> 状态：**审查已完成（7 项已推送 `main`）；N1/N2 经核对已随 `fcd3090` 推送；2026-08-27 新增「工具入课流水线」落地（TOOL-emmx2md 首个样板），本地待推送**
 > 范围：AITestingTraining 培训站全部 10 个模块 + Prompt 模板库 + roadmap
 
 ---
@@ -148,5 +148,45 @@
 
 ### 待办（按"推 `main` 前先过目"约定）
 
-- [ ] `docs/AI_CONTEXT.md`（N1）、`docs/prompt-templates/README.md`（N2）改动**尚未 commit/push**，需贴 diff 给用户过目后再推送。
-- [ ] 根 `README.md` 仍按原约定留本地未推（见第 6 节）。
+- [x] ~~`docs/AI_CONTEXT.md`（N1）、`docs/prompt-templates/README.md`（N2）改动尚未 commit/push~~ → 2026-08-27 核对：`origin/main..HEAD` 为空，N1/N2 与根 `README.md` 均已随 `fcd3090` 推送，本待办关闭。
+- [x] ~~根 `README.md` 仍按原约定留本地未推（见第 6 节）~~ → 同上，已推送。
+
+---
+
+## 8. 2026-08-27 新增：工具入课流水线落地（TOOL-emmx2md 首个样板）
+
+> 状态：**已落地（本地待推送）** | 触发：用户提供 `emmx_to_md.py` + 生成它的原始 Prompt，要求入课并考虑后续同类内容的可延续性
+
+### 落地的机制（可延续性设计）
+
+以后再有「提示词 + Python 文件」入课，触发词「喵喵喵加肉-工具」自动走全链路：
+
+```
+tools/<tool-id>/ 三件套入库 → docs/toolbox.md 索引登记 → 模块 lecture.md 追加选学小节 → 喵喵喵培训自检
+```
+
+关键约定：
+
+- 工具 ID 用语义 ID（`TOOL-xxx`，不用序号），目录名 = ID 后缀；三件套 = 脚本 + `prompt.md`（原始 Prompt 原文）+ `README.md`；
+- 工具型小节**一律选学、默认 10 min、不计入模块总时长**（课程 18h 不变）；
+- 公开 / 私有默认策略：纯通用工具公开入库；含敏感实现只写「思路 + 伪步骤」；
+- 一致性护栏新增第 ⑦ 项：`tools/` ↔ `toolbox.md` ↔ 课件小节三者一致 + TOOL- 编号唯一。
+
+### 本次变更清单
+
+| # | 文件 | 变更 |
+|---|------|------|
+| 1 | `tools/emmx-to-md/`（新建） | 脚本从仓库根移入；新增 `README.md`、`prompt.md`（原始 Prompt 原文） |
+| 2 | `tools/README.md`（新建） | 工具资产库维护者规范 |
+| 3 | `docs/toolbox.md`（新建） | 「AI 提效工具箱」站点索引页，收录 TOOL-emmx2md |
+| 4 | `mkdocs.yml` | nav 新增「AI 提效工具箱: toolbox.md」（位于 Prompt 模板之前） |
+| 5 | `docs/modules/03-testcase-generation/lecture.md` | 追加第九节（AI 提效小工具 —— 思维导图 TXT 转 MD，10 min 选学），不动既有八节编号与小结 |
+| 6 | `docs/modules/02-prompt-engineering/lecture.md` | 第一节「要素 5」末尾加 TOOL-emmx2md 交叉引用（五要素实战范例） |
+| 7 | `docs/AI_CONTEXT.md` | 目录树补 `tools/` + `toolbox.md`；加肉约定补「喵喵喵加肉-工具」说明 |
+| 8 | `.codebuddy/rules/training-content-add-flesh.mdc` | 新增工具型分支（全链路流程 + 选学不计时长 + 公开/私有策略） |
+| 9 | `.codebuddy/rules/training-content-consistency.mdc` | 新增第 ⑦ 项检查（工具资产三者一致），触发条件扩至 `toolbox.md` / `tools/**` |
+
+### 待办（按"推 `main` 前先过目"约定）
+
+- [ ] 上述改动贴全量 diff 给用户过目后，commit + push `main`（一推即上线）。
+- [ ] 仓库存在未跟踪杂项：`docs/6d3e301b6ae2ff65e618075290bc370c.jpg`、`site/`（本地构建产物）、`.vscode/`、`.DS_Store`，是否入库或加 `.gitignore` 由用户裁决（本次不处理）。

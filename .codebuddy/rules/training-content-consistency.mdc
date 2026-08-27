@@ -1,5 +1,5 @@
 ---
-description: 培训内容一致性护栏 — 编辑 docs/ 下培训材料或执行「喵喵喵培训自检」时，校验 quiz 题号连续、模板编号唯一、README 数量声明、贡献门槛、ROI 基线、模板引用一致性。
+description: 培训内容一致性护栏 — 编辑 docs/ 下培训材料或执行「喵喵喵培训自检」时，校验 quiz 题号连续、模板编号唯一、README 数量声明、贡献门槛、ROI 基线、模板引用一致性、工具资产三者一致（tools/ ↔ toolbox.md ↔ 课件小节）。
 alwaysApply: false
 enabled: true
 updatedAt: 2026-07-22
@@ -21,6 +21,7 @@ provider: codebuddy
      │  ④ 贡献门槛统一为「2 人以上」     │
      │  ⑤ M10 lecture ROI 基线=lab 预估  │
      │  ⑥ 文档引用的模板编号真实存在     │
+     │  ⑦ 工具资产三者一致+TOOL-编号唯一 │
      └──────────────┬──────────────────┘
                     ▼
             发现不一致 → replace_in_file 修正
@@ -28,8 +29,8 @@ provider: codebuddy
 
 ## 触发条件
 
-- 修改 `docs/modules/**` 或 `docs/prompt-templates/**` 任意文件之后。
-- 或用户说「喵喵喵培训自检」时，对全仓库 `docs/` 做一次全量扫描。
+- 修改 `docs/modules/**`、`docs/prompt-templates/**` 或 `docs/toolbox.md`、`tools/**` 任意文件之后。
+- 或用户说「喵喵喵培训自检」时，对全仓库 `docs/` + `tools/` 做一次全量扫描。
 
 ## 检查清单
 
@@ -63,6 +64,15 @@ provider: codebuddy
 ### ⑥ 模板引用有效
 
 任何文档中「用模板 T-xx / D-xx / R-xx …」引用的编号，必须在 `prompt-templates/` 中真实存在。重命名编号时，必须同步搜索全 `docs/` 更新所有引用点（含 lecture / lab / `AI_CONTEXT.md` / `README.md` 导航表）。
+
+### ⑦ 工具资产三者一致
+
+`tools/` 实际子目录 ↔ `docs/toolbox.md` 索引表 ↔ 各模块 `lecture.md` 的「AI 提效小工具」小节（TOOL- 编号标注）三者必须一致：
+
+- `toolbox.md` 索引行指向的模块小节真实存在，且小节头部标注的 TOOL- 编号与索引一致；
+- `tools/` 下每个工具目录都被索引收录，且三件套（脚本 + `prompt.md` + `README.md`）齐全；
+- `TOOL-` 编号全局唯一，不得重复（语义 ID，不用序号）；
+- 工具型小节标题必须为「AI 提效小工具 —— …（10 min，选学）」，不得计入模块总时长。
 
 ## 注意
 

@@ -13,10 +13,13 @@
 AITestingTraining/
 ├── README.md                    ← 入口（维护者说明），课程站见下方 docs/
 ├── mkdocs.yml                   ← MkDocs 站点配置（docs_dir: docs）
+├── tools/                       ← AI 提效小工具资产库（脚本 + prompt.md + README），不入站点构建
+│   └── emmx-to-md/              ← TOOL-emmx2md：亿图 TXT → XMind 可导入 MD
 └── docs/                        ← 课程正文，由 MkDocs 构建为站点
     ├── AI_CONTEXT.md            ← 本文件，项目快速上手
     ├── AITestingTraining_MindMap.md  ← 课程思维导图
     ├── Rovo_Agents.md           ← Rovo Agents 速查
+    ├── toolbox.md               ← AI 提效工具箱（工具总索引，学员可见）
     ├── modules/                 ← 10 个学习模块，每模块 4 个文件
     │   ├── 01-ai-foundations/
     │   ├── 02-prompt-engineering/
@@ -148,6 +151,10 @@ AITestingTraining/
 ### 一键加肉规则
 
 项目内置规则 `training-content-add-flesh.mdc`（触发词「喵喵喵加肉」）：说出"喵喵喵加肉：在 M6 加一个『AI 自然语言转 SQL 工具』小节，内容是……"即可自动定位模块、套骨架插入、并提示跑「喵喵喵培训自检」回归。
+
+### 工具入课规则（喵喵喵加肉-工具）
+
+有「Python 脚本 + 生成它的原始 Prompt」要入课时，说"喵喵喵加肉-工具：脚本 xxx.py 入 M某，原始 Prompt 如下……"，自动走全链路：`tools/<tool-id>/` 三件套入库（TOOL-xxx 语义 ID）→ `docs/toolbox.md` 索引登记 → 指定模块 lecture.md 追加选学小节（10 min，不计入总时长）→ 跑「喵喵喵培训自检」。首个样板：TOOL-emmx2md（M3 第九节）。
 
 ### 护栏提醒
 

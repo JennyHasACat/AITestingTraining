@@ -80,6 +80,7 @@ nav:
           - Lab 通用版: modules/10-full-loop-roi/lab-generic.md
           - Lab OmniPeople 版: modules/10-full-loop-roi/lab-omnipeople.md
           - 测验: modules/10-full-loop-roi/quiz.md
+  - AI 提效工具箱: toolbox.md
   - Prompt 模板:
       - 概览: prompt-templates/README.md
       - 用例设计: prompt-templates/testcase-design.md
