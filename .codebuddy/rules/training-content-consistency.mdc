@@ -70,7 +70,7 @@ provider: codebuddy
 `tools/` 实际子目录 ↔ `docs/toolbox.md` 索引表 ↔ 各模块 `lecture.md` 的「AI 提效小工具」小节（TOOL- 编号标注）三者必须一致：
 
 - `toolbox.md` 索引行指向的模块小节真实存在，且小节头部标注的 TOOL- 编号与索引一致；
-- `tools/` 下每个工具目录都被索引收录，且三件套（脚本 + `prompt.md` + `README.md`）齐全；
+- `tools/` 下每个工具目录都被索引收录，且资产按形态齐全：形态 A（脚本型）= 脚本 + `prompt.md` + `README.md`；形态 B（纯提示词型）= `prompt.md` + `README.md`（`sample/` 可选）；
 - `TOOL-` 编号全局唯一，不得重复（语义 ID，不用序号）；
 - 工具型小节标题必须为「AI 提效小工具 —— …（10 min，选学）」，不得计入模块总时长。
 

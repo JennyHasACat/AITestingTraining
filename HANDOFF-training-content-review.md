@@ -2,7 +2,7 @@
 
 > 创建时间：2026-07-21
 > 最后更新：2026-08-27
-> 状态：**审查已完成（7 项已推送 `main`）；N1/N2 经核对已随 `fcd3090` 推送；2026-08-27 新增「工具入课流水线」落地（TOOL-emmx2md 首个样板），本地待推送**
+> 状态：**审查已完成（7 项已推送 `main`）；N1/N2 经核对已随 `fcd3090` 推送；2026-08-27 新增「工具入课流水线」落地（TOOL-emmx2md 首个样板）+ TOOL-postman-param + TOOL-framework-reverse，本地待推送**
 > 范围：AITestingTraining 培训站全部 10 个模块 + Prompt 模板库 + roadmap
 
 ---
@@ -189,4 +189,65 @@ tools/<tool-id>/ 三件套入库 → docs/toolbox.md 索引登记 → 模块 lec
 ### 待办（按"推 `main` 前先过目"约定）
 
 - [ ] 上述改动贴全量 diff 给用户过目后，commit + push `main`（一推即上线）。
-- [ ] 仓库存在未跟踪杂项：`docs/6d3e301b6ae2ff65e618075290bc370c.jpg`、`site/`（本地构建产物）、`.vscode/`、`.DS_Store`，是否入库或加 `.gitignore` 由用户裁决（本次不处理）。
+- [x] ~~仓库存在未跟踪杂项：`docs/6d3e301b6ae2ff65e618075290bc370c.jpg`、`site/`（本地构建产物）、`.vscode/`、`.DS_Store`，是否入库或加 `.gitignore` 由用户裁决（本次不处理）。~~ → 2026-08-27 随第 9 节落地：已建 `.gitignore` 统一拦截。
+
+---
+
+## 9. 2026-08-27 新增：TOOL-postman-param 入课（首个纯提示词型工具）
+
+> 状态：**已落地（本地待推送）** | 触发：用户提供「纯提示词流程」工具（Postman Collection 反写改造 Prompt）+ 真实导出文件 `CNOWN.postman_collection.json`
+
+### 机制变化：工具资产分两种形态
+
+一致性护栏第 ⑦ 项与加肉规则工具型分支同步升级：
+
+- 形态 A（脚本型）：脚本 + `prompt.md` + `README.md`（首个样板 TOOL-emmx2md）；
+- 形态 B（纯提示词型）：`prompt.md` + `README.md`（可选 `sample/` 脱敏样例）—— 本次 TOOL-postman-param 为首个形态 B 样板；
+- `toolbox.md` 索引列「脚本位置」→「资产位置」。
+
+### 本次变更清单
+
+| # | 文件 | 变更 |
+|---|------|------|
+| 1 | `tools/postman-param/`（新建） | `prompt.md`（原始 Prompt 原文）+ `README.md` + `sample/collection-before.json` / `collection-after.json`（基于真实 collection 深度脱敏：虚构域名/会员 ID、密钥占位 `{{app_secret}}`、砍掉 response 保存样例） |
+| 2 | `docs/toolbox.md` | 索引登记 TOOL-postman-param；「脚本位置」列→「资产位置」；登记规范改两种形态 |
+| 3 | `docs/modules/08-api-testing/lecture.md` | 新增第六节（10 min 选学，不计入总时长）；第五节末尾加两条路线的交叉引用 |
+| 4 | `.codebuddy/rules/training-content-consistency.mdc` | 第 ⑦ 项改形态 A/B 校验 |
+| 5 | `.codebuddy/rules/training-content-add-flesh.mdc` | 工具型分支支持纯提示词输入 |
+| 6 | `tools/README.md`、`docs/AI_CONTEXT.md` | 同步形态说明与目录树 |
+| 7 | `.gitignore`（新建） | 拦 `*.postman_collection.json`（放行 `tools/**/sample/`）、`site/`、`.vscode/`、`.DS_Store`、`docs/*.jpg` |
+| 8 | `CNOWN.postman_collection.json`（仓库根，已被 gitignore 拦截） | 真实密钥 63 处全部替换为 `{{app_secret}}`（0 残留，JSON 结构校验通过），原件留本地供日常 Runner 使用 |
+
+### 待办（按"推 `main` 前先过目"约定）
+
+- [ ] 贴全量 diff 给用户过目后，commit + push `main`（一推即上线）。
+- [ ] 原 collection 的真实 appsecret 曾长期明文存放并随文件流转，建议找机会轮换一次密钥（安全 housekeeping，不阻塞）。
+
+---
+
+## 10. 2026-08-27 新增：TOOL-framework-reverse 入课（首个多步流水线工具）
+
+> 状态：**已落地（本地待推送）** | 触发：用户提供两个有关联的纯 Prompt（「AI Prompt - 快速了解框架关键信息」+「抽取 AI 提示词生成普遍使用的框架」），用户裁决落 M9、按方案 A（一个工具、两段式 prompt）入库
+
+### 决策记录
+
+- **归属模块**：M9 Prompt 资产体系（主题契合：Step 2 本质是 Prompt 资产化，且与第五节「今天就贡献一条」闭环）；
+- **入库形态**：方案 A —— 一个工具 `TOOL-framework-reverse`，`prompt.md` 内分 Step 1 / Step 2 两节（多步流水线首个样板，工具 ID 由用户从 `fw-distill` 改定为 `framework-reverse`）；
+- **落点方式**：不是新加小节，而是把 M9 原第七节（「快速了解 / 复刻其他项目」思路占位）升级为正式工具小节；
+- **sample/ 样例**：用户明确跳过，后续可补。
+
+### 本次变更清单
+
+| # | 文件 | 变更 |
+|---|------|------|
+| 1 | `tools/framework-reverse/`（新建） | `prompt.md`（两条原始 Prompt 原文，Step 1/2 分节）+ `README.md`（两步流水线关系 / 用法 / 边界 / 与 M9 第五节衔接） |
+| 2 | `docs/modules/09-prompt-assets/lecture.md` | 第七节改写为「框架逆向：代码库透视 + System Prompt 提炼（10 min，选学）」，占位内容升级为正式小节 |
+| 3 | `docs/toolbox.md` | 索引登记 TOOL-framework-reverse → M9 第七节 |
+| 4 | `tools/README.md` | 形态 B 的 `prompt.md` 描述补「多步流水线按 Step 1/2 分节」约定 |
+| 5 | `HANDOFF-training-content-review.md` | 本节 |
+
+规则文件（护栏⑦、加肉规则）无需改动 —— 形态 B 机制已支持，两段式只是 `prompt.md` 内部结构。
+
+### 待办（按"推 `main` 前先过目"约定）
+
+- [ ] 与第 8/9 节改动合并，贴全量 diff 给用户过目后，commit + push `main`。

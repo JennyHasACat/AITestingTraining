@@ -13,8 +13,9 @@
 AITestingTraining/
 ├── README.md                    ← 入口（维护者说明），课程站见下方 docs/
 ├── mkdocs.yml                   ← MkDocs 站点配置（docs_dir: docs）
-├── tools/                       ← AI 提效小工具资产库（脚本 + prompt.md + README），不入站点构建
-│   └── emmx-to-md/              ← TOOL-emmx2md：亿图 TXT → XMind 可导入 MD
+├── tools/                       ← AI 提效小工具资产库（形态 A 脚本型 / 形态 B 纯提示词型），不入站点构建
+│   ├── emmx-to-md/              ← TOOL-emmx2md：亿图 TXT → XMind 可导入 MD
+│   └── postman-param/           ← TOOL-postman-param：Postman Collection 参数化生成（纯提示词型）
 └── docs/                        ← 课程正文，由 MkDocs 构建为站点
     ├── AI_CONTEXT.md            ← 本文件，项目快速上手
     ├── AITestingTraining_MindMap.md  ← 课程思维导图
@@ -154,7 +155,7 @@ AITestingTraining/
 
 ### 工具入课规则（喵喵喵加肉-工具）
 
-有「Python 脚本 + 生成它的原始 Prompt」要入课时，说"喵喵喵加肉-工具：脚本 xxx.py 入 M某，原始 Prompt 如下……"，自动走全链路：`tools/<tool-id>/` 三件套入库（TOOL-xxx 语义 ID）→ `docs/toolbox.md` 索引登记 → 指定模块 lecture.md 追加选学小节（10 min，不计入总时长）→ 跑「喵喵喵培训自检」。首个样板：TOOL-emmx2md（M3 第九节）。
+有「Python 脚本 + 生成它的原始 Prompt」（或仅原始 Prompt，纯提示词型）要入课时，说"喵喵喵加肉-工具：脚本 xxx.py 入 M某，原始 Prompt 如下……"，自动走全链路：`tools/<tool-id>/` 资产入库（TOOL-xxx 语义 ID；形态 A = 脚本+prompt+README，形态 B = prompt+README+可选 sample）→ `docs/toolbox.md` 索引登记 → 指定模块 lecture.md 追加选学小节（10 min，不计入总时长）→ 跑「喵喵喵培训自检」。样板：TOOL-emmx2md（形态 A，M3 第九节）、TOOL-postman-param（形态 B，M8 第六节）。
 
 ### 护栏提醒
 

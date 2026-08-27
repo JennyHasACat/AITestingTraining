@@ -2,10 +2,14 @@
 
 每个子目录是一个工具，目录名 = 工具 ID 后缀（语义 ID，风格 `TOOL-xxx`，不用序号）。
 
-## 固定三件套
+## 资产形态（两种）
 
-- 脚本本体（如 `emmx_to_md.py`）
-- `prompt.md` — 生成该脚本的原始 Prompt 原文（溯源，后续迭代可复现）
+- 形态 A（脚本型）：脚本本体（如 `emmx_to_md.py`）+ `prompt.md` + `README.md`
+- 形态 B（纯提示词型）：`prompt.md` + `README.md`（可选 `sample/` 脱敏样例）
+
+其中：
+
+- `prompt.md` — 生成该工具的原始 Prompt 原文（溯源，后续迭代可复现）；若工具是多步流水线，按 `Step 1 / Step 2` 分节存放（首个样板 TOOL-framework-reverse）
 - `README.md` — 用途 / 用法 / 边界（课件小节的素材来源）
 
 ## 关联约定

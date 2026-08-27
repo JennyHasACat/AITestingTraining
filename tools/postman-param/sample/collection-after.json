@@ -1,0 +1,221 @@
+{
+	"info": {
+		"_postman_id": "00000000-0000-4000-8000-0000000000a1",
+		"name": "demo-lead-flow（AI 反写改造后）",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Lead V2",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// ===== 迭代计数：每次迭代 +1 =====",
+							"let seq = parseInt(pm.environment.get(\"seq\") || \"0\");",
+							"pm.environment.set(\"seq\", seq + 1);",
+							"",
+							"// ===== 手机号自增：base_mobile + seq =====",
+							"let baseMobile = parseInt(pm.environment.get(\"base_mobile\"));",
+							"pm.environment.set(\"current_mobile\", String(baseMobile + seq));",
+							"",
+							"// ===== 姓名自增：前缀不变，序号 5 位补零 =====",
+							"let baseName = pm.environment.get(\"base_name\");",
+							"let prefix = baseName.replace(/-\\d+$/, \"\");",
+							"pm.environment.set(\"current_name\", prefix + \"-\" + String(seq).padStart(5, \"0\"));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"状态码为 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"const json = pm.response.json();",
+							"",
+							"pm.test(\"Lead 创建成功\", function () {",
+							"    pm.expect(json.isSuccess).to.eql(true);",
+							"});",
+							"",
+							"// ===== 提取 ID，传递给下游接口（Update / Book） =====",
+							"pm.environment.set(\"lead_id\", json.leadId);",
+							"pm.environment.set(\"lead_member_id\", json.memberId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-odin-appid",
+						"value": "salesforce"
+					},
+					{
+						"key": "x-odin-appsecret",
+						"value": "{{app_secret}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"/services/apexrest/demo/v2/lead\",\n    \"body\": {\n        \"is_lead\": true,\n        \"child\": {\n            \"member_id\": \"demo_member_00001\",\n            \"name\": \"{{current_name}}\",\n            \"mobile\": \"{{current_mobile}}\",\n            \"city\": \"Shanghai\",\n            \"scene\": \"Demo Channel_Demo Campaign\",\n            \"union_id\": \"demo_union_id_001\",\n            \"source\": \"mini program\",\n            \"comment\": \"batch test\",\n            \"gender\": \"Female\"\n        },\n        \"action\": \"Offline\",\n        \"request_id\": \"{{$guid}}\",\n        \"click_id\": \"{{$guid}}\"\n    },\n    \"http_method\": \"POST\"\n}"
+				},
+				"url": {
+					"raw": "{{apigateway_url}}/api/v1/sf/restapi",
+					"host": [
+						"{{apigateway_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sf",
+						"restapi"
+					]
+				},
+				"description": "创建 Lead。改造后：name / mobile 由 Pre-request 按迭代自增（current_name / current_mobile）；request_id / click_id 用 {{$guid}} 动态 UUID；Tests 提取 leadId / memberId 写环境变量供下游使用。"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Lead",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"状态码为 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"响应时间 < 2s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"",
+							"// 字段级断言请按真实响应结构补充（见 tools/postman-param/README 注意事项）"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-odin-appid",
+						"value": "salesforce"
+					},
+					{
+						"key": "x-odin-appsecret",
+						"value": "{{app_secret}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"/services/apexrest/demo/v2/lead\",\n    \"body\": {\n        \"child\": {\n            \"lead_id\": \"{{lead_id}}\",\n            \"member_id\": \"{{lead_member_id}}\",\n            \"name\": \"{{current_name}}\",\n            \"mobile\": \"{{current_mobile}}\",\n            \"city\": \"Shanghai\",\n            \"prefer_center\": \"DEMO_CENTER\",\n            \"year_of_birth\": 2019,\n            \"hot_lead\": false,\n            \"comment\": \"updated by batch\",\n            \"gender\": \"Female\"\n        },\n        \"request_id\": \"{{$guid}}\",\n        \"click_id\": \"{{$guid}}\"\n    },\n    \"http_method\": \"PUT\"\n}"
+				},
+				"url": {
+					"raw": "{{apigateway_url}}/api/v1/sf/restapi",
+					"host": [
+						"{{apigateway_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sf",
+						"restapi"
+					]
+				},
+				"description": "更新 Lead。改造后：lead_id / member_id 来自上一步 Tests 提取（ID 传递）；name / mobile 引用 current_name / current_mobile，与创建步骤保持完全一致（数据一致性）。"
+			},
+			"response": []
+		},
+		{
+			"name": "Book Appointment",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// ===== 时间滑动：base_start_time + 当前迭代序号 x 步长 =====",
+							"// 注意：Add Lead 的 Pre-request 已把 seq +1，这里取当前迭代序号要 -1",
+							"let seq = parseInt(pm.environment.get(\"seq\") || \"1\") - 1;",
+							"let base = new Date(pm.environment.get(\"base_start_time\")).getTime();",
+							"let step = parseInt(pm.environment.get(\"slot_step_minutes\")) * 60 * 1000;",
+							"",
+							"let start = new Date(base + seq * step);",
+							"let end = new Date(start.getTime() + step);",
+							"",
+							"pm.environment.set(\"current_start_time\", start.toISOString());",
+							"pm.environment.set(\"current_end_time\", end.toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"状态码为 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"响应时间 < 2s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-odin-appid",
+						"value": "salesforce"
+					},
+					{
+						"key": "x-odin-appsecret",
+						"value": "{{app_secret}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\": \"/services/apexrest/demo/v1/appointment\",\n    \"body\": {\n        \"member_id\": \"{{lead_member_id}}\",\n        \"center_id\": \"demo_center_001\",\n        \"start_time\": \"{{current_start_time}}\",\n        \"end_time\": \"{{current_end_time}}\",\n        \"notes\": \"batch booking\",\n        \"name\": \"{{current_name}}\",\n        \"action\": \"Offline\",\n        \"request_id\": \"{{$guid}}\",\n        \"click_id\": \"{{$guid}}\"\n    },\n    \"http_method\": \"POST\"\n}"
+				},
+				"url": {
+					"raw": "{{apigateway_url}}/api/v1/sf/restapi",
+					"host": [
+						"{{apigateway_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"sf",
+						"restapi"
+					]
+				},
+				"description": "预约 Appointment。改造后：member_id 来自 Add Lead 提取（ID 传递）；start_time / end_time 由 Pre-request 按迭代滑动（base_start_time + seq x slot_step_minutes）；补齐了 Tests，消除 \"No tests found\" 警告。"
+			},
+			"response": []
+		}
+	]
+}

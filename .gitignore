@@ -1,0 +1,8 @@
+.DS_Store
+.vscode/
+site/
+docs/*.jpg
+
+# 私有原始资产（含密钥/内部域名，禁止入库；脱敏样例放行）
+*.postman_collection.json
+!tools/**/sample/*.json

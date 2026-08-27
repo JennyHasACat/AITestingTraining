@@ -210,6 +210,53 @@ def test_api_response_time():
 
 - 自动生成的断言默认偏浅，关键业务字段需人工补强；
 - Spec 更新后重新生成，注意保留团队自定义部分（避免覆盖）。
+- 若你的目标不是迁出 Postman、而是留在 Postman 里批量造数（参数化 + 上下游传参 + Runner 迭代），见第六节 TOOL-postman-param —— 两条路线互补。
+
+---
+
+## 第六节：AI 提效小工具 —— Postman Collection 参数化生成（10 min，选学）
+
+> 工具 ID：TOOL-postman-param ｜ 索引：[AI 提效工具箱](../../toolbox.md) ｜ 资产：仓库 `tools/postman-param/`
+
+### 它解决什么问题
+
+Postman 导出的 Collection 参数全部硬编码：姓名、手机号、时间段、`request_id` 全是定值。想用 Collection Runner 批量跑 250 轮造测试数据，结果是 250 条一模一样的重复数据；接口之间的 ID 传递（创建 → 更新 → 预约）还得手动复制。手动改几十上百个请求不现实 —— 让 AI 直接在原 JSON 里"反写"完成改造，产出一个导入即用的新 Collection。
+
+### 核心思路 / 提示词骨架
+
+```
+1. 角色 + 目标：资深 Postman 脚本专家，对 collection JSON 做"反写"改造，
+   支持 Collection Runner 批量迭代造数（如 250 次）
+2. 数据流转：下游接口需要的 ID/字段，用 Tests 脚本 pm.environment.set 提取传递；
+   跨接口一致性字段（如 parent_name）声明"必须与接口 A 完全一致"
+3. 动态自增：手机号/姓名从起始值按迭代自增（Pre-request 计算 + 环境变量记数），
+   明确位数格式（如 5 位补零）
+4. 时间滑动：基准时间 + 步长（如每次 +15min），Pre-request 动态计算
+5. 工程化锁死项：所有接口必须有 Tests（消除 "No tests found" 警告）；
+   直接在原 JSON 内改写，不输出额外文件；除 Environment 初始变量外零手工配置
+6. 反向交付物：要求 AI 输出【环境变量初始化清单】Markdown 表格，
+   导入后照着配一遍即可运行
+```
+
+完整 Prompt 原文见仓库 `tools/postman-param/prompt.md`；该工具为**纯提示词型**（无脚本），Prompt 即全部资产。
+
+### 使用示例
+
+`tools/postman-param/sample/` 下有一对脱敏样例（线索创建 → 更新 → 预约 三接口链路）：
+
+| 文件 | 状态 |
+|------|------|
+| `collection-before.json` | 改造前：姓名/手机号/时间段硬编码、`request_id` 固定、test 是占位脚本或无 |
+| `collection-after.json` | 改造后：Pre-request 算自增与滑动时间、Tests 提取 `leadId` 传下游、`{{$guid}}` 动态 UUID、每请求都有正式断言 |
+
+导入两个文件对比 diff，是最直观的"AI 到底改了什么"。
+
+### 注意事项
+
+- **防 JSON 结构破坏**：要求 AI 输出合法 Collection v2.1 schema，导入前先过 JSON lint（AI 偶尔会截断或产出非法 JSON）；
+- **认清网关包装结构**：样例 Collection 所有请求的 URL 都是同一个网关，真实 endpoint 藏在 body 的 `url` / `http_method` 字段里 —— Prompt 里最好点明，否则 AI 可能改错层；
+- **敏感信息先占位**：真实 Collection 含密钥与内部域名，发给 AI 前替换成 `{{app_secret}}` 这类占位符，导入后再通过环境变量配回；
+- **与第五节的路线分工**：本节留在 Postman 生态（Runner 批量造数、轻量验证）；要纳入 CI 每日回归，用第五节「Collection → pytest」路线。两者互补，按需选用。
 
 ---
 
